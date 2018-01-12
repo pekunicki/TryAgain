@@ -1,5 +1,3 @@
-using System;
-
 namespace TryAgain.Models
 {
     public class ErrorViewModel

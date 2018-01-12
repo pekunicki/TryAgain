@@ -1,0 +1,113 @@
+﻿@using TryAgain.Models.Constants
+@using TryAgain.Models.Forms
+@model TryAgain.Models.Forms.PodanieFormModel
+
+@{
+    ViewBag.Title = "Tworzenie podanie";
+    Layout = "_Layout";
+}
+
+<h2>Tworzenie nowego podania o kurs poprawkowy</h2>
+@if (ViewBag.ShowWarningPopup == true)
+{
+    <div class="alert alert-danger" role="alert">
+        Nieprawidłowie wartości w następujących polach:
+        <div asp-validation-summary="All"></div>
+    </div>
+}
+
+<form asp-controller="Podanie" asp-action="Create" method="post" class="form-horizontal" role="form">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.StudentOrganizujacyKurs" class="col-md-3 right">Student Organizujący Kurs:</label>
+                <div class="col-md-5">
+                    <input asp-for="@Model.StudentOrganizujacyKurs" class="form-control" disabled value="@Model.StudentOrganizujacyKurs"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.Kurs.NazwaKursu" class="col-md-3 right">Kurs:</label>
+                <div class="col-md-5">
+                    <input asp-for="@Model.Kurs.NazwaKursu" class="form-control" />
+                </div>
+                <label asp-for="@Model.Kurs.LiczbaEcts" class="col-md-1 right">ECTS:</label>
+                <div class="col-md-1">
+                    <input asp-for="@Model.Kurs.LiczbaEcts" class="form-control" disabled/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.RodzajKursu" class="col-md-3 right">Rodzaj kursu:</label>
+                <div class="col-md-5">
+                    <select asp-for="@Model.RodzajKursu"
+                            asp-items="Html.GetEnumSelectList<RodzajKursu>()"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.ProponowanyProwadzacy" class="col-md-3 right">Proponowany prowadzący:</label>
+                <div class="col-md-5">
+                    <input asp-for="@Model.ProponowanyProwadzacy" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.Sala" class="col-md-3 right">Sala:</label>
+                <div class="col-md-5">
+                    <input asp-for="@Model.Sala" class="form-control" />     
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.Data.Dzien" class="col-md-2 right">Dzień:</label>
+                <div class="col-md-2">
+                    <select asp-for="@Model.Data.Dzien"
+                            asp-items="Html.GetEnumSelectList<DzienTygodnia>()"></select>
+                </div>
+                <label asp-for="@Model.Data.Tydzien" class="col-md-2 right">Tydzien:</label>
+                <div class="col-md-2">
+                    <select asp-for="@Model.Data.Tydzien"
+                            asp-items="Html.GetEnumSelectList<RodzajTygodnia>()"></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label asp-for="@Model.Data.GodzinaRozpoczecia" class="col-md-2 right">Godzina rozpoczęcia:</label>
+                <div class="col-md-2">
+                    <input asp-for="@Model.Data.GodzinaRozpoczecia" value="@Model.Data.GodzinaRozpoczecia.GetHoursAndMinutes()" class="form-control"/>
+@*                                        <select asp-for="@Model.Data.GodzinaRozpoczecia" asp-items="@Model.Data.AvailableHours" ></select>*@
+                </div>
+                <label asp-for="@Model.Data.GodzinaZakoczenia" class="col-md-2 right">Godzina zakończenia:</label>
+                <div class="col-md-2">
+                    <input asp-for="@Model.Data.GodzinaZakoczenia" value="@Model.Data.GodzinaRozpoczecia.GetHoursAndMinutes()" class="form-control" />
+                    @*                    <select asp-for="@Model.Data.Dzien" asp-items="@Model.Data.Dzien" ></select>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-default">STWÓRZ PODANIE</button>
+            <button type="submit" class="btn btn-default" disabled>WYŚLIJ</button>
+
+        </div>
+    </div>
+</form>

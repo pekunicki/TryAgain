@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TryAgain.DI;
 
 namespace TryAgain
 {
     public class Startup
     {
+        private readonly DependencyInjectionService _dependencyInjectionService;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            _dependencyInjectionService = new DependencyInjectionService();
         }
 
         public IConfiguration Configuration { get; }
@@ -22,6 +22,7 @@ namespace TryAgain
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            _dependencyInjectionService.BindDependencyInjection(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
