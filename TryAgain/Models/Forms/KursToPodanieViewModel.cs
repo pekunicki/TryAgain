@@ -2,12 +2,10 @@
 
 namespace TryAgain.Models.Forms
 {
-    public class KursToPodanieFormModel
+    public class KursToPodanieViewModel
     {
-        [DisplayName("Nazwa kursu")]
         public string NazwaKursu { get; set; }
 
-        [DisplayName("Liczba punktów ECTS")]
         public int LiczbaEcts { get; set; }
     }
 }

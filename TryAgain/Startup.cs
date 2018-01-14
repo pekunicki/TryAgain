@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TryAgain.DI;
+using FluentValidation.AspNetCore;
 
 namespace TryAgain
 {
@@ -21,7 +22,10 @@ namespace TryAgain
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                    .AddFluentValidation(fvc => 
+                        fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+
             _dependencyInjectionService.BindDependencyInjection(services);
         }
 

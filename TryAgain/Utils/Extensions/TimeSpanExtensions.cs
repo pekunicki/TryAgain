@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TryAgain.Models.Forms
+namespace TryAgain.Utils.Extensions
 {
     public static class TimeSpanExtensions
     {

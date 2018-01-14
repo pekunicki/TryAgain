@@ -14,11 +14,11 @@ namespace TryAgain.Controllers.Podanie
         [HttpGet]
         public IActionResult Create()
         {
-            var podanie = new PodanieFormModel
+            var podanie = new PodanieViewModel
             {
                 StudentOrganizujacyKurs = "Bill Gates",
-                Data = new DataToPodanieFormModel(),
-                Kurs = new KursToPodanieFormModel()
+                Data = new DataToPodanieViewModel(),
+                Kurs = new KursToPodanieViewModel()
                 
             };
 
@@ -26,7 +26,7 @@ namespace TryAgain.Controllers.Podanie
         }
 
         [HttpPost]
-        public IActionResult Create(PodanieFormModel podanie)
+        public IActionResult Create(PodanieViewModel podanie)
         {
             if (!ModelState.IsValid)
             {
@@ -38,7 +38,7 @@ namespace TryAgain.Controllers.Podanie
         }
 
 
-        public IActionResult CreateSucccessResult(PodanieFormModel podanie)
+        public IActionResult CreateSucccessResult(PodanieViewModel podanie)
         {
             return View();
         }

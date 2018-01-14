@@ -1,6 +1,7 @@
 ﻿@using TryAgain.Models.Constants
 @using TryAgain.Models.Forms
-@model TryAgain.Models.Forms.PodanieFormModel
+@using TryAgain.Utils.Extensions
+@model TryAgain.Models.Forms.PodanieViewModel
 
 @{
     ViewBag.Title = "Tworzenie podanie";
@@ -22,7 +23,7 @@
             <div class="form-group">
                 <label asp-for="@Model.StudentOrganizujacyKurs" class="col-md-3 right">Student Organizujący Kurs:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.StudentOrganizujacyKurs" class="form-control" disabled value="@Model.StudentOrganizujacyKurs"/>
+                    <input asp-for="@Model.StudentOrganizujacyKurs" disabled value="@Model.StudentOrganizujacyKurs"/>
                 </div>
             </div>
         </div>
