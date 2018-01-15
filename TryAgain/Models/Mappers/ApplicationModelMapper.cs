@@ -39,6 +39,29 @@ namespace TryAgain.Models.Mappers
             };
         }
 
+        public ApplicationViewModel MapToViewModel(ApplicationModel appModel)
+        {
+            return new ApplicationViewModel
+            {
+                OrganizerFullName = appModel.Organizer.FirstName + appModel.Organizer.LastName,
+                Classroom = appModel.Classroom,
+                Course = new CourseInApplicationViewModel
+                {
+                    CourseName = appModel.Course.CourseName,
+                    Ects = appModel.Course.Ects
+                },
+                Date = new DateInApplicationViewModel
+                {
+                    Day = appModel.Day,
+                    Week = appModel.Week,
+                    StartTime = appModel.StartTime.GetHoursAndMinutes(),
+                    EndTime = appModel.EndTime.GetHoursAndMinutes()
+                },
+                ProposedTeacherFullName = appModel.Teacher.FirstName + appModel.Teacher.LastName,
+                Type = appModel.Course.Type
+            };
+        }
+
         private static TimeSpan GetTimeSpan(string time)
         {
             try

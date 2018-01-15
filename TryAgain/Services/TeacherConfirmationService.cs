@@ -32,7 +32,8 @@ namespace TryAgain.Services
 
             //todo mapping
             var teacherConfirmation = _teacherConfirmationRepository.Create(new TeacherConfirmation());
-            _notificationService.SendRequestToTeacher(appId, teacherConfirmation.TeacherId);
+            var id = teacherConfirmation?.TeacherId ?? 1;
+            _notificationService.SendRequestToTeacher(appId, id);
 
             //todo here
             return new TeacherConfirmationModel();
@@ -52,10 +53,17 @@ namespace TryAgain.Services
                 ConfirmationState.Odrzucone);
         }
 
-        public bool ValidateTeacherConfirmationLink(string link)
+        public TeacherConfirmationModel TryGetTeacherConfirmationByLink(string link)
         {
             var confirmation = _teacherConfirmationRepository.GetTeacherConfirmationByLink(link);
-            return confirmation.CreationDate.AddDays(confirmation.ExpiryDaysNumber) >= DateTime.UtcNow;
+            var isValid = confirmation.CreationDate.AddDays(confirmation.ExpiryDaysNumber) >= DateTime.UtcNow;
+            if (isValid)
+            {
+                //todo add mapping
+                return new TeacherConfirmationModel();
+            }
+
+            return null;
         }
     }
 }

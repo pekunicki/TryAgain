@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TryAgain.Models.Creators;
-using TryAgain.Models.Mappers;
 using TryAgain.Models.ViewModels;
 using TryAgain.Services.Interfaces;
 
@@ -55,10 +54,10 @@ namespace TryAgain.Controllers.Application
             var appModel = _applicationService.CreateApplicationModel(appViewModel, currentUser);
             _applicationService.SaveApplication(appModel);
 
-            return RedirectToAction("CreateSucccessResult", appViewModel);
+            return RedirectToAction("CreateSucccessResult");
         }
 
-        public IActionResult CreateSucccessResult(ApplicationViewModel podanie)
+        public IActionResult CreateSucccessResult()
         {
             return View();
         }

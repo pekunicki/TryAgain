@@ -39,10 +39,24 @@ namespace TryAgain.Services
         {
             //todo Todo mapping
             var app = _applicationRepository.Create(new Application());
-            _teacherConfirmationService.CreateNewTeacherConfirmation(app.Id, appModel);
+            //todo appid isntead of '1'
+            _teacherConfirmationService.CreateNewTeacherConfirmation(1, appModel);
             //todo Todo mapping from entity to model
 
             return appModel;
+        }
+
+        public ApplicationModel GetById(int id)
+        {
+            var app = _applicationRepository.GetApplicationById(id);
+            //todo mapping
+            return new ApplicationModel();
+        }
+
+        public ApplicationViewModel CreateApplicationViewModel(ApplicationModel appModel)
+        {
+            var appViewModel = _applicationModelMapper.MapToViewModel(appModel);
+            return appViewModel;
         }
     }
 }

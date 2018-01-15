@@ -11,10 +11,10 @@ namespace TryAgain.DI
         public void BindDependencyInjection(IServiceCollection services)
         {
             services.AddScoped<IApplicationService, ApplicationService>();
-            services.AddScoped<ICourseService, CourseService>();
+            services.AddTransient<ICourseService, CourseService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ITeacherConfirmationService, TeacherConfirmationService>();
-            services.AddScoped<ITeacherService, TeacherService>();
+            services.AddTransient<ITeacherService, TeacherService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<ApplicationRepository>();

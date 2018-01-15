@@ -7,6 +7,6 @@ namespace TryAgain.Services.Interfaces
         TeacherConfirmationModel CreateNewTeacherConfirmation(int teacherId, ApplicationModel applicationId);
         void AcceptTeacherConfirmation(int teacherConfirmationId);
         void RejectTeacherConfirmation(int confirmationId);
-        bool ValidateTeacherConfirmationLink(string link);
+        TeacherConfirmationModel TryGetTeacherConfirmationByLink(string link);
     }
 }

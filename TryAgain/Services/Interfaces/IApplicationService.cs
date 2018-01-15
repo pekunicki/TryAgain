@@ -7,5 +7,7 @@ namespace TryAgain.Services.Interfaces
     {
         ApplicationModel CreateApplicationModel(ApplicationViewModel app, UserModel user);
         ApplicationModel SaveApplication(ApplicationModel app);
+        ApplicationModel GetById(int id);
+        ApplicationViewModel CreateApplicationViewModel(ApplicationModel appModel);
     }
 }
