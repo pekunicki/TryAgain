@@ -1,6 +1,6 @@
 ﻿namespace TryAgain.Models.Constants
 {
-    public enum DzienTygodnia
+    public enum DayOfWeek
     {
         Poniedzialek = 1,
         Wtorek = 2,

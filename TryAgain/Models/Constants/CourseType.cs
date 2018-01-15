@@ -1,6 +1,6 @@
 namespace TryAgain.Models.Constants
 {
-    public enum RodzajKursu
+    public enum CourseType
     {
         Wyklad = 1,
         Laboratorium = 2,

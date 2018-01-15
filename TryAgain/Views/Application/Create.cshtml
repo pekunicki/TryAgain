@@ -1,7 +1,6 @@
 ﻿@using TryAgain.Models.Constants
-@using TryAgain.Models.Forms
 @using TryAgain.Utils.Extensions
-@model TryAgain.Models.Forms.PodanieViewModel
+@model TryAgain.Models.Forms.ApplicationViewModel
 
 @{
     ViewBag.Title = "Tworzenie podanie";
@@ -17,13 +16,13 @@
     </div>
 }
 
-<form asp-controller="Podanie" asp-action="Create" method="post" class="form-horizontal" role="form">
+<form asp-controller="Application" asp-action="Create" method="post" class="form-horizontal" role="form">
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.StudentOrganizujacyKurs" class="col-md-3 right">Student Organizujący Kurs:</label>
+                <label asp-for="@Model.Organizer" class="col-md-3 right">Student Organizujący Kurs:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.StudentOrganizujacyKurs" disabled value="@Model.StudentOrganizujacyKurs"/>
+                    <input asp-for="@Model.Organizer" Value="@Model.Organizer" readonly/>
                 </div>
             </div>
         </div>
@@ -31,13 +30,13 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.Kurs.NazwaKursu" class="col-md-3 right">Kurs:</label>
+                <label asp-for="@Model.Course.CourseName" class="col-md-3 right">Kurs:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.Kurs.NazwaKursu" class="form-control" />
+                    <input asp-for="@Model.Course.CourseName" class="form-control" />
                 </div>
-                <label asp-for="@Model.Kurs.LiczbaEcts" class="col-md-1 right">ECTS:</label>
+                <label asp-for="@Model.Course.Ects" class="col-md-1 right">ECTS:</label>
                 <div class="col-md-1">
-                    <input asp-for="@Model.Kurs.LiczbaEcts" class="form-control" disabled/>
+                    <input asp-for="@Model.Course.Ects" class="form-control" disabled/>
                 </div>
             </div>
         </div>
@@ -45,10 +44,10 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.RodzajKursu" class="col-md-3 right">Rodzaj kursu:</label>
+                <label asp-for="@Model.Type" class="col-md-3 right">Rodzaj kursu:</label>
                 <div class="col-md-5">
-                    <select asp-for="@Model.RodzajKursu"
-                            asp-items="Html.GetEnumSelectList<RodzajKursu>()"></select>
+                    <select asp-for="@Model.Type"
+                            asp-items="Html.GetEnumSelectList<CourseType>()"></select>
                 </div>
             </div>
         </div>
@@ -56,9 +55,9 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.ProponowanyProwadzacy" class="col-md-3 right">Proponowany prowadzący:</label>
+                <label asp-for="@Model.ProposedTeacher" class="col-md-3 right">Proponowany prowadzący:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.ProponowanyProwadzacy" class="form-control" />
+                    <input asp-for="@Model.ProposedTeacher" class="form-control" />
                 </div>
             </div>
         </div>
@@ -66,9 +65,9 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.Sala" class="col-md-3 right">Sala:</label>
+                <label asp-for="@Model.Classroom" class="col-md-3 right">Sala:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.Sala" class="form-control" />     
+                    <input asp-for="@Model.Classroom" class="form-control" />     
                 </div>
             </div>
         </div>
@@ -76,28 +75,28 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.Data.Dzien" class="col-md-2 right">Dzień:</label>
+                <label asp-for="@Model.Date.Day" class="col-md-2 right">Dzień:</label>
                 <div class="col-md-2">
-                    <select asp-for="@Model.Data.Dzien"
-                            asp-items="Html.GetEnumSelectList<DzienTygodnia>()"></select>
+                    <select asp-for="@Model.Date.Day"
+                            asp-items="Html.GetEnumSelectList<TryAgain.Models.Constants.DayOfWeek>()"></select>
                 </div>
-                <label asp-for="@Model.Data.Tydzien" class="col-md-2 right">Tydzien:</label>
+                <label asp-for="@Model.Date.Week" class="col-md-2 right">Tydzien:</label>
                 <div class="col-md-2">
-                    <select asp-for="@Model.Data.Tydzien"
-                            asp-items="Html.GetEnumSelectList<RodzajTygodnia>()"></select>
+                    <select asp-for="@Model.Date.Week"
+                            asp-items="Html.GetEnumSelectList<WeekType>()"></select>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.Data.GodzinaRozpoczecia" class="col-md-2 right">Godzina rozpoczęcia:</label>
+                <label asp-for="@Model.Date.StartTime" class="col-md-2 right">Godzina rozpoczęcia:</label>
                 <div class="col-md-2">
-                    <input asp-for="@Model.Data.GodzinaRozpoczecia" value="@Model.Data.GodzinaRozpoczecia.GetHoursAndMinutes()" class="form-control"/>
+                    <input asp-for="@Model.Date.StartTime" class="form-control"/>
 @*                                        <select asp-for="@Model.Data.GodzinaRozpoczecia" asp-items="@Model.Data.AvailableHours" ></select>*@
                 </div>
-                <label asp-for="@Model.Data.GodzinaZakoczenia" class="col-md-2 right">Godzina zakończenia:</label>
+                <label asp-for="@Model.Date.EndTime" class="col-md-2 right">Godzina zakończenia:</label>
                 <div class="col-md-2">
-                    <input asp-for="@Model.Data.GodzinaZakoczenia" value="@Model.Data.GodzinaRozpoczecia.GetHoursAndMinutes()" class="form-control" />
+                    <input asp-for="@Model.Date.EndTime" class="form-control" />
                     @*                    <select asp-for="@Model.Data.Dzien" asp-items="@Model.Data.Dzien" ></select>*@
                 </div>
             </div>

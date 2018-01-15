@@ -6,6 +6,6 @@ namespace TryAgain.Models
     {
         public string NazwaKursu { get; set; }
         public int PunktyEcts { get; set; }
-        public RodzajKursu Rodzaj { get; set; }
+        public CourseType Rodzaj { get; set; }
     }
 }

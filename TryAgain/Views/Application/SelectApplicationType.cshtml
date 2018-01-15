@@ -1,0 +1,20 @@
+﻿@model object
+
+@{
+    ViewBag.Title = "Tworzenie podania";
+    Layout = "_Layout";
+}
+
+<h2>Tworzenie nowego podania</h2>
+
+<div class="jumbotron">
+    <p>Jakie podanie chciałyś stworzyć?</p>
+    <a asp-controller="Application" asp-action="Create" type="button" class="btn btn-default">
+        STWÓRZ PODANIE O KURS POPRAWKOWY
+    </a>
+    <br/><br/>
+    <button type="button" class="btn btn-default" disabled>
+        STWÓRZ PODANIE O KURS ZAMIENNY
+    </button>
+
+</div>

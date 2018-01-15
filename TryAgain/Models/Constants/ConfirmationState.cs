@@ -1,6 +1,6 @@
 namespace TryAgain.Models.Constants
 {
-    internal enum StatusPotwierdzenia
+    public enum ConfirmationState
     {
         Oczekiwanie = 1,
         Zaakceptowane = 2,

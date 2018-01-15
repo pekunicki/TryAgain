@@ -1,6 +1,6 @@
 namespace TryAgain.Models.Constants
 {
-    internal enum StatusPodania
+    public enum ApplicationState
     {
         Rozpatrywany = 1,
         Rozpatrzony = 2,

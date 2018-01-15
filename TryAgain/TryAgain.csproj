@@ -16,8 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Services\" />
-    <Folder Include="Persistance\Entity\" />
-    <Folder Include="Persistance\Repository\" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 namespace TryAgain.Models.Constants
 {
-    public enum RodzajTygodnia
+    public enum WeekType
     {
         Parzysty = 1,
         Nieparzysty = 2,
