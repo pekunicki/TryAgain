@@ -1,4 +1,4 @@
-﻿namespace TryAgain.Models.Forms
+﻿namespace TryAgain.Models.ViewModels
 {
     public class CourseInApplicationViewModel
     {

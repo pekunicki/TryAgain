@@ -1,10 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TryAgain.Models.Forms;
+using TryAgain.Models.Creators;
+using TryAgain.Models.Mappers;
+using TryAgain.Models.ViewModels;
+using TryAgain.Services.Interfaces;
 
 namespace TryAgain.Controllers.Application
 {
     public class ApplicationController : Controller
     {
+        private readonly IApplicationService _applicationService;
+        private readonly IUserService _userService;
+
+        public ApplicationController(
+            IApplicationService applicationService, 
+            IUserService userService)
+        {
+            _applicationService = applicationService;
+            _userService = userService;
+        }
 
         public IActionResult Index()
         {
@@ -20,29 +33,30 @@ namespace TryAgain.Controllers.Application
         [HttpGet]
         public IActionResult Create()
         {
-            var app = new ApplicationViewModel
-            {
-                Organizer = "Bill Gates",
-                Date = new DateInApplicationViewModel(),
-                Course = new CourseInApplicationViewModel()
-                
-            };
+            var currentUser = _userService.GetCurrentUser();
+            var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
 
-            return View(app);
+            //todo if we want have combobox and autofilling of ECTS field we need to pass here all courses or add ajax call
+            var appViewModel = CreatorApplicationViewModel.CreateEmpty(fullName);
+
+            return View(appViewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(ApplicationViewModel app)
+        public IActionResult Create(ApplicationViewModel appViewModel)
         {
             if (!ModelState.IsValid)
             {
                 ViewBag.ShowWarningPopup = true;
-                return View(app);
+                return View(appViewModel);
             }
 
-            return RedirectToAction("CreateSucccessResult", app);
-        }
+            var currentUser = _userService.GetCurrentUser();
+            var appModel = _applicationService.CreateApplicationModel(appViewModel, currentUser);
+            _applicationService.SaveApplication(appModel);
 
+            return RedirectToAction("CreateSucccessResult", appViewModel);
+        }
 
         public IActionResult CreateSucccessResult(ApplicationViewModel podanie)
         {

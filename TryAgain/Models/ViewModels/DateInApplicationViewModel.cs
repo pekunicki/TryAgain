@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TryAgain.Models.Constants;
 using DayOfWeek = TryAgain.Models.Constants.DayOfWeek;
 
-namespace TryAgain.Models.Forms
+namespace TryAgain.Models.ViewModels
 {
     public class DateInApplicationViewModel
     {
@@ -15,16 +15,8 @@ namespace TryAgain.Models.Forms
         public DayOfWeek Day { get; set; }
         public WeekType Week { get; set; }
 
-        public string StartTime
-        {
-            get;
-            set;
-        }
-        public string EndTime
-        {
-            get;
-            set;
-        }
+        public string StartTime { get; set; }
+        public string EndTime{ get; set; }
 
         public List<SelectListItem> AvailableHours { get; set; }
         public List<SelectListItem> AvailableMinutes { get; set; }

@@ -1,26 +1,40 @@
 ﻿using FluentValidation;
+using TryAgain.Services.Interfaces;
 using TryAgain.Utils.CustomValidators;
 using TryAgain.Utils.ValidatiorMessages;
 
-namespace TryAgain.Models.Forms
+namespace TryAgain.Models.ViewModels
 {
     public class ApplicationViewModelValidator : AbstractValidator<ApplicationViewModel>
     {
-        public ApplicationViewModelValidator()
+        private readonly ICourseService _courseService;
+        private readonly ITeacherService _teacherService;
+
+        public ApplicationViewModelValidator(
+            ICourseService courseService, 
+            ITeacherService teacherService)
         {
-            RuleFor(reg => reg.Organizer)
+            _courseService = courseService;
+            _teacherService = teacherService;
+
+            RuleFor(reg => reg.OrganizerFullName)
                 .NotEmpty()
                 .WithName("Student Organizujący Kurs")
                 .WithMessage(EmptyValueMessage())
-                .MaximumLength(500)
-                .WithMessage(InvalidValueMessage());
+                .DependentRules(rules =>
+                {
+                    rules.RuleFor(e => e.OrganizerFullName)
+                        .MaximumLength(500)
+                        .WithMessage(InvalidValueMessage());
+                });
 
-            RuleFor(reg => reg.ProposedTeacher)
+            RuleFor(reg => reg.ProposedTeacherFullName)
                 .NotEmpty()
                 .WithName("Proponowany Prowadzący")
                 .WithMessage(EmptyValueMessage())
                 .MaximumLength(500)
-                .WithMessage(InvalidValueMessage());
+                .WithMessage(InvalidValueMessage())
+                .Must(CheckIfTeacherIsValid);
 
             RuleFor(reg => reg.Classroom)
                 .NotEmpty()
@@ -35,19 +49,21 @@ namespace TryAgain.Models.Forms
                 .WithName("Rodzaj Kursu")
                 .WithMessage(EmptyValueMessage());
 
-            RuleFor(reg => reg.Course.Ects)
-                .NotEmpty()
-                .WithName("ECTS")
-                .WithMessage(EmptyValueMessage())
-                .Must(ects => ects >= 0 && ects <= 1000)
-                .WithMessage(InvalidValueMessage());
+            //todo first provide ects
+//            RuleFor(reg => reg.Course.Ects)
+//                .NotEmpty()
+//                .WithName("ECTS")
+//                .WithMessage(EmptyValueMessage())
+//                .Must(ects => ects >= 0 && ects <= 1000)
+//                .WithMessage(InvalidValueMessage());
 
             RuleFor(reg => reg.Course.CourseName)
                 .NotEmpty()
                 .WithName("Kurs")
                 .WithMessage(EmptyValueMessage())
                 .MaximumLength(500)
-                .WithMessage(InvalidValueMessage());
+                .WithMessage(InvalidValueMessage())
+                .Must(CheckIfCourseIsValid);
 
             RuleFor(reg => reg.Date.Day)
                 .IsInEnum()
@@ -71,6 +87,16 @@ namespace TryAgain.Models.Forms
                 .WithName("Godzina zakończenia")
                 .WithMessage(EmptyValueMessage())
                 .TimeSpanMustContainHHMMFormat();
+        }
+
+        private bool CheckIfTeacherIsValid(string teacherFullNme)
+        {
+            return _teacherService.CheckIfTeacherExists(teacherFullNme);
+        }
+
+        private bool CheckIfCourseIsValid(string courseName)
+        {
+            return _courseService.CheckIfCourseExists(courseName);
         }
 
         private string EmptyValueMessage(string fieldName = null)

@@ -1,6 +1,6 @@
 ﻿@using TryAgain.Models.Constants
 @using TryAgain.Utils.Extensions
-@model TryAgain.Models.Forms.ApplicationViewModel
+@model TryAgain.Models.ViewModels.ApplicationViewModel
 
 @{
     ViewBag.Title = "Tworzenie podanie";
@@ -20,9 +20,9 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.Organizer" class="col-md-3 right">Student Organizujący Kurs:</label>
+                <label asp-for="@Model.OrganizerFullName" class="col-md-3 right">Student Organizujący Kurs:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.Organizer" Value="@Model.Organizer" readonly/>
+                    <input asp-for="@Model.OrganizerFullName" Value="@Model.OrganizerFullName" readonly/>
                 </div>
             </div>
         </div>
@@ -55,9 +55,9 @@
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
-                <label asp-for="@Model.ProposedTeacher" class="col-md-3 right">Proponowany prowadzący:</label>
+                <label asp-for="@Model.ProposedTeacherFullName" class="col-md-3 right">Proponowany prowadzący:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.ProposedTeacher" class="form-control" />
+                    <input asp-for="@Model.ProposedTeacherFullName" class="form-control" />
                 </div>
             </div>
         </div>

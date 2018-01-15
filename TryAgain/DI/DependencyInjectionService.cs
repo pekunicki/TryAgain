@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TryAgain.Persistance.Repository.Interfaces;
+using TryAgain.Services;
+using TryAgain.Services.Interfaces;
 
 namespace TryAgain.DI
 {
@@ -7,7 +10,19 @@ namespace TryAgain.DI
 
         public void BindDependencyInjection(IServiceCollection services)
         {
-//            services.AddScoped<IHistoryRepository, HistoryRepository>();
+            services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<ITeacherConfirmationService, TeacherConfirmationService>();
+            services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<ApplicationRepository>();
+            services.AddScoped<TeacherConfirmationRepository>();
+            services.AddScoped<CourseRepository>();
+            services.AddScoped<UserRepository>();
+            services.AddScoped<TeacherRepository>();
+
         }
     }
 }

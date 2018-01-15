@@ -1,21 +1,20 @@
-﻿using System;
+using System;
 using TryAgain.Models.Constants;
 using DayOfWeek = TryAgain.Models.Constants.DayOfWeek;
 
-namespace TryAgain.Persistance.Entity
+namespace TryAgain.Models
 {
-    public class Application
+    public class ApplicationModel
     {
-        public int Id { get; set; }
-        public int OrganizerId { get; set; }
-        public int CourseId { get; set; }
-        public int ProposedOtherCourseId { get; set; }
         public ApplicationState State { get; set; }
         public string Classroom { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public WeekType Week { get; set; }
         public DayOfWeek Day { get; set; }
-        public string ApplicationType { get; set; }
+
+        public UserModel Organizer { get; set; }
+        public CourseModel Course { get; set; }
+        public TeacherModel Teacher { get; set; }
     }
 }
