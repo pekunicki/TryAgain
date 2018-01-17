@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using TryAgain.Persistance.Repository.Interfaces;
+using TryAgain.Persistance.Repository;
 using TryAgain.Services;
 using TryAgain.Services.Interfaces;
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using TryAgain.Models;
-using TryAgain.Persistance.Repository.Interfaces;
+using TryAgain.Persistance.Repository;
 
 namespace TryAgain.Services.Interfaces
 {

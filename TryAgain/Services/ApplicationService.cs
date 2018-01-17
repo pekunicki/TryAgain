@@ -2,7 +2,7 @@
 using TryAgain.Models.Mappers;
 using TryAgain.Models.ViewModels;
 using TryAgain.Persistance.Entity;
-using TryAgain.Persistance.Repository.Interfaces;
+using TryAgain.Persistance.Repository;
 using TryAgain.Services.Interfaces;
 
 namespace TryAgain.Services

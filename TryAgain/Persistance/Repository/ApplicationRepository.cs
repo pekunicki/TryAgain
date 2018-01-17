@@ -1,17 +1,27 @@
-﻿using TryAgain.Persistance.Entity;
+﻿using System.Linq;
+using TryAgain.Persistance.Entity;
 
-namespace TryAgain.Persistance.Repository.Interfaces
+namespace TryAgain.Persistance.Repository
 {
     internal class ApplicationRepository
     {
+        private readonly DatabaseContext _context;
+
+        public ApplicationRepository(DatabaseContext context)
+        {
+            _context = context;
+        }
+
         internal Application Create(Application application)
         {
-            return null;
+            var createdApp = _context.Applications.Add(application);
+            _context.SaveChanges();
+            return createdApp.Entity;
         }
 
         internal Application GetApplicationById(int id)
         {
-            return null;
+            return _context.Applications.FirstOrDefault(x => x.Id == id);
         }
     }
 }

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TryAgain.DI;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using TryAgain.Persistance;
 
 namespace TryAgain
 {
@@ -25,6 +27,9 @@ namespace TryAgain
             services.AddMvc()
                     .AddFluentValidation(fvc => 
                         fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            var connectionString = Configuration.GetConnectionString("TryAgain");
+            services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(options => options.UseNpgsql(connectionString));
 
             _dependencyInjectionService.BindDependencyInjection(services);
         }

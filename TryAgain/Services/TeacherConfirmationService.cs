@@ -2,7 +2,7 @@
 using TryAgain.Models;
 using TryAgain.Models.Constants;
 using TryAgain.Persistance.Entity;
-using TryAgain.Persistance.Repository.Interfaces;
+using TryAgain.Persistance.Repository;
 using TryAgain.Services.Interfaces;
 
 namespace TryAgain.Services
