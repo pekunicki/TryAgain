@@ -1,4 +1,5 @@
-﻿using TryAgain.Models;
+﻿using AutoMapper;
+using TryAgain.Models;
 using TryAgain.Models.Mappers;
 using TryAgain.Models.ViewModels;
 using TryAgain.Persistance.Entity;
@@ -14,18 +15,20 @@ namespace TryAgain.Services
         private readonly ApplicationRepository _applicationRepository;
         private readonly ITeacherConfirmationService _teacherConfirmationService;
         private readonly ApplicationModelMapper _applicationModelMapper;
+        private readonly IUserService _userService;
 
 
         public ApplicationService(
             ITeacherService teacherService, 
             ICourseService courseService, 
             ApplicationRepository applicationRepository,
-            ITeacherConfirmationService teacherConfirmationService)
+            ITeacherConfirmationService teacherConfirmationService, IUserService userService)
         {
             _teacherService = teacherService;
             _courseService = courseService;
             _applicationRepository = applicationRepository;
             _teacherConfirmationService = teacherConfirmationService;
+            _userService = userService;
             _applicationModelMapper = new ApplicationModelMapper(_teacherService, _courseService);
         }
 
@@ -35,22 +38,44 @@ namespace TryAgain.Services
             return appModel;
         }
 
-        public ApplicationModel SaveApplication(ApplicationModel appModel)
+        public void SaveApplication(ApplicationModel appModel)
         {
-            //todo Todo mapping
-            var app = _applicationRepository.Create(new Application());
-            //todo appid isntead of '1'
-            _teacherConfirmationService.CreateNewTeacherConfirmation(1, appModel);
-            //todo Todo mapping from entity to model
+            var app = MapToApplication(appModel);
+            app = _applicationRepository.Create(app);
+            _teacherConfirmationService.CreateNewTeacherConfirmation(appModel.Teacher.Id, app.Id);
+        }
+
+        private static Application MapToApplication(ApplicationModel appModel)
+        {
+            var app = Mapper.Map<Application>(appModel);
+            return app;
+        }
+
+        private static ApplicationModel MapToApplicationModel(
+            Application app, 
+            TeacherModel teacher, 
+            CourseModel course, 
+            UserModel organizer)
+        {
+            var appModel = Mapper.Map<ApplicationModel>(app);
+            appModel.Teacher = teacher;
+            appModel.Course = course;
+            appModel.Organizer = organizer;
 
             return appModel;
         }
 
         public ApplicationModel GetById(int id)
         {
+            //todo bind to one query
             var app = _applicationRepository.GetApplicationById(id);
-            //todo mapping
-            return new ApplicationModel();
+            var course = _courseService.GetCourseById(app.CourseId);
+            var confirmationTeacher = _teacherConfirmationService.TryGetTeacherConfirmationByAppId(app.Id);
+            var teacher = _teacherService.GetTeacherById(confirmationTeacher.TeacherId);
+            var organizer = _userService.GetUserById(app.OrganizerId);
+
+            var appModel = MapToApplicationModel(app, teacher, course, organizer);
+            return appModel;
         }
 
         public ApplicationViewModel CreateApplicationViewModel(ApplicationModel appModel)

@@ -32,7 +32,7 @@ namespace TryAgain.Controllers.Application
         [HttpGet]
         public IActionResult Create()
         {
-            var currentUser = _userService.GetCurrentUser();
+            var currentUser = _userService.GetUserById();
             var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
 
             //todo if we want have combobox and autofilling of ECTS field we need to pass here all courses or add ajax call
@@ -50,7 +50,7 @@ namespace TryAgain.Controllers.Application
                 return View(appViewModel);
             }
 
-            var currentUser = _userService.GetCurrentUser();
+            var currentUser = _userService.GetUserById();
             var appModel = _applicationService.CreateApplicationModel(appViewModel, currentUser);
             _applicationService.SaveApplication(appModel);
 

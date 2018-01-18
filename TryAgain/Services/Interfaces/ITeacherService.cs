@@ -7,6 +7,7 @@ namespace TryAgain.Services.Interfaces
     {
         List<TeacherModel> GetAllTeachers();
         bool CheckIfTeacherExists(string fullName);
-        TeacherModel GetTeacherByTeacherFullName(string fullName);
+        TeacherModel TryGetTeacherByTeacherFullName(string fullName);
+        TeacherModel GetTeacherById(int id);
     }
 }

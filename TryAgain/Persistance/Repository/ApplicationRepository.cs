@@ -22,6 +22,7 @@ namespace TryAgain.Persistance.Repository
         internal Application GetApplicationById(int id)
         {
             return _context.Applications.FirstOrDefault(x => x.Id == id);
+
         }
     }
 }

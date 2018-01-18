@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,7 +31,7 @@ namespace TryAgain
 
             var connectionString = Configuration.GetConnectionString("TryAgain");
             services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(options => options.UseNpgsql(connectionString));
-
+            services.AddAutoMapper();
             _dependencyInjectionService.BindDependencyInjection(services);
         }
 

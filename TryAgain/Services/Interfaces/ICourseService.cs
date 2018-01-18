@@ -8,5 +8,6 @@ namespace TryAgain.Services.Interfaces
         List<CourseModel> GetAllCourses();
         bool CheckIfCourseExists(string courseName);
         CourseModel GetCourseByCourseName(string coursename);
+        CourseModel GetCourseById(int id);
     }
 }

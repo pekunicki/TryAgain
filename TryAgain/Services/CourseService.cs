@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using TryAgain.Models;
+using TryAgain.Persistance.Entity;
 using TryAgain.Persistance.Repository;
+using TryAgain.Services.Interfaces;
 
-namespace TryAgain.Services.Interfaces
+namespace TryAgain.Services
 {
     internal class CourseService : ICourseService
     {
@@ -15,6 +18,7 @@ namespace TryAgain.Services.Interfaces
 
         public List<CourseModel> GetAllCourses()
         {
+            //todo implement
             throw new System.NotImplementedException();
         }
 
@@ -26,9 +30,22 @@ namespace TryAgain.Services.Interfaces
 
         public CourseModel GetCourseByCourseName(string coursename)
         {
-            _courseRepository.GetCourseByName(coursename);
-            //todo mapping;
-            return new CourseModel();
+            var course = _courseRepository.GetCourseByName(coursename);
+            var courseModel = MapToCourseModel(course);
+            return courseModel;
+        }
+
+        public CourseModel GetCourseById(int id)
+        {
+            var course = _courseRepository.GetCourseById(id);
+            var courseModel = MapToCourseModel(course);
+            return courseModel;
+        }
+
+        private static CourseModel MapToCourseModel(Course course)
+        {
+            var courseModel = Mapper.Map<CourseModel>(course);
+            return courseModel;
         }
     }
 }

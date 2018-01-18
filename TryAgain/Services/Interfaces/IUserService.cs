@@ -4,6 +4,6 @@ namespace TryAgain.Services.Interfaces
 {
     public interface IUserService
     {
-        UserModel GetCurrentUser();
+        UserModel GetUserById(int id = 1);
     }
 }

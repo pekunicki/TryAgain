@@ -14,7 +14,7 @@ namespace TryAgain.Persistance.Entity
         [Column("idpoprawianegokursu")]
         public int CourseId { get; set; }
         [Column("idproponowanegozamiennegokursu")]
-        public int ProposedOtherCourseId { get; set; }
+        public int? ProposedOtherCourseId { get; set; }
         [Column("status")]
         public ApplicationState State { get; set; }
         [Column("sala")]

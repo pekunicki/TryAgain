@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using AutoMapper;
 using TryAgain.Models;
 using TryAgain.Models.Constants;
 using TryAgain.Persistance.Entity;
@@ -11,6 +13,7 @@ namespace TryAgain.Services
     {
         private readonly INotificationService _notificationService;
         private readonly TeacherConfirmationRepository _teacherConfirmationRepository;
+        private int _expiryDaysNumber = 10;
 
         public TeacherConfirmationService(
             INotificationService notificationService, 
@@ -20,23 +23,26 @@ namespace TryAgain.Services
             _teacherConfirmationRepository = teacherConfirmationRepository;
         }
 
-        public TeacherConfirmationModel CreateNewTeacherConfirmation(int appId, ApplicationModel appModel)
+        public TeacherConfirmationModel CreateNewTeacherConfirmation(int teacherId, int appId)
         {
-            var confirmation = new TeacherConfirmationModel
+            var confirmation = new TeacherConfirmation()
             {
                 CreationDate = DateTime.UtcNow,
-                ExpiryDaysNumber = 10, //todo some settings
-                Link = "123", //todo add generating unique id and expose some endpoint
-                State = ConfirmationState.Oczekiwanie
+                ExpiryDaysNumber = _expiryDaysNumber,
+                Link = GenerateUniqueId(),
+                State = ConfirmationState.Oczekiwanie,
+                ApplicationId =  appId,
+                TeacherId = teacherId
             };
 
-            //todo mapping
-            var teacherConfirmation = _teacherConfirmationRepository.Create(new TeacherConfirmation());
-            var id = teacherConfirmation?.TeacherId ?? 1;
-            _notificationService.SendRequestToTeacher(appId, id);
+            var teacherConfirmation = _teacherConfirmationRepository.Create(confirmation);
+            _notificationService.SendRequestToTeacher(appId, teacherId);
+            return MapToConfirmationModel(teacherConfirmation);
+        }
 
-            //todo here
-            return new TeacherConfirmationModel();
+        private static string GenerateUniqueId()
+        {
+            return Guid.NewGuid().ToString();
         }
 
         public void AcceptTeacherConfirmation(int confirmationId)
@@ -56,14 +62,26 @@ namespace TryAgain.Services
         public TeacherConfirmationModel TryGetTeacherConfirmationByLink(string link)
         {
             var confirmation = _teacherConfirmationRepository.GetTeacherConfirmationByLink(link);
-            var isValid = confirmation.CreationDate.AddDays(confirmation.ExpiryDaysNumber) >= DateTime.UtcNow;
+            var isValid = confirmation.CreationDate.AddDays(confirmation.ExpiryDaysNumber) >= DateTime.UtcNow
+                          && confirmation.State == ConfirmationState.Oczekiwanie;
+
             if (isValid)
             {
-                //todo add mapping
-                return new TeacherConfirmationModel();
+                return MapToConfirmationModel(confirmation);
             }
-
             return null;
+        }
+
+        private static TeacherConfirmationModel MapToConfirmationModel(TeacherConfirmation confirmation)
+        {
+            return Mapper.Map<TeacherConfirmationModel>(confirmation);
+        }
+
+        public TeacherConfirmationModel TryGetTeacherConfirmationByAppId(int id)
+        {
+            var confirmations = _teacherConfirmationRepository.GetTeacherCOnfirmationsByAppId(id);
+            var firstConfirmation = confirmations.First();
+            return MapToConfirmationModel(firstConfirmation);
         }
     }
 }

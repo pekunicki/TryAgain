@@ -24,6 +24,7 @@ namespace TryAgain.Controllers.Application
             {
                 return RedirectToAction("InvalidLink");
             }
+
             var appModel = _applicationService.GetById(confirmationModel.ApplicationId);
             var appViewModel = _applicationService.CreateApplicationViewModel(appModel);
             //todo consider to delete it, we shouldn't expose this id
@@ -31,17 +32,33 @@ namespace TryAgain.Controllers.Application
             return View(appViewModel);
         }
 
-        [HttpPost]
-        public IActionResult Accept(int confirmationId)
+        //todo change to post maybe
+        [HttpGet]
+        public IActionResult Accept(string link)
         {
-            _teacherConfirmationService.AcceptTeacherConfirmation(confirmationId);
+            var confirmationModel = _teacherConfirmationService.TryGetTeacherConfirmationByLink(link);
+            if (confirmationModel == null)
+            {
+                return RedirectToAction("InvalidLink");
+            }
+
+            //todo implement sending post
+            _teacherConfirmationService.AcceptTeacherConfirmation(confirmationModel.Id);
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Reject(int confirmationId)
+        //todo change to post maybe
+        [HttpGet]
+        public IActionResult Reject(string link)
         {
-            _teacherConfirmationService.RejectTeacherConfirmation(confirmationId);
+            var confirmationModel = _teacherConfirmationService.TryGetTeacherConfirmationByLink(link);
+            if (confirmationModel == null)
+            {
+                return RedirectToAction("InvalidLink");
+            }
+
+            //todo implement sending post
+            _teacherConfirmationService.RejectTeacherConfirmation(confirmationModel.Id);
             return View();
         }
 

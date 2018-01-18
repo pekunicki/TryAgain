@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TryAgain.Models.Constants;
 using TryAgain.Persistance.Entity;
 
@@ -35,6 +36,11 @@ namespace TryAgain.Persistance.Repository
             confirmation.State = newState;
             _context.SaveChanges();
             return confirmation;
+        }
+
+        public List<TeacherConfirmation> GetTeacherCOnfirmationsByAppId(int id)
+        {
+            return _context.TeacherConfirmations.Where(x => x.ApplicationId == id).ToList();
         }
     }
 }

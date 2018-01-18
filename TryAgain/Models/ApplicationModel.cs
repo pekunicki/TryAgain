@@ -12,7 +12,6 @@ namespace TryAgain.Models
         public TimeSpan EndTime { get; set; }
         public WeekType Week { get; set; }
         public DayOfWeek Day { get; set; }
-
         public UserModel Organizer { get; set; }
         public CourseModel Course { get; set; }
         public TeacherModel Teacher { get; set; }

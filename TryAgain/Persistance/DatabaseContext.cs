@@ -15,6 +15,14 @@ namespace TryAgain.Persistance
             modelBuilder.Entity<User>()
                 .ToTable("uzytkownik");
 
+//            modelBuilder.HasSequence<int>("podanieokurspoprawkowy", schema: "public")
+//                .StartsAt(10)
+//                .IncrementsBy(1);
+//
+//            modelBuilder.Entity<Application>()
+//                .Property(app => app.Id)
+//                .HasDefaultValueSql("NEXT VALUE FOR public.podanieokurspoprawkowy");
+
             modelBuilder.Entity<Application>()
                 .ToTable("podanieokurspoprawkowy");
 

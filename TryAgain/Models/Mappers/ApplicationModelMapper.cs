@@ -82,7 +82,7 @@ namespace TryAgain.Models.Mappers
 
         private TeacherModel GetTeacher(string fullname)
         {
-            return _teacherService.GetTeacherByTeacherFullName(fullname);
+            return _teacherService.TryGetTeacherByTeacherFullName(fullname);
         }
     }
 }
