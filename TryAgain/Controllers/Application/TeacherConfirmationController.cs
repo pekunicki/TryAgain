@@ -33,6 +33,7 @@ namespace TryAgain.Controllers.Application
         }
 
         //todo change to post maybe
+        //todo check in requirements what should happen after accepted/rejected application by teacher.
         [HttpGet]
         public IActionResult Accept(string link)
         {
