@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using TryAgain.Persistance.Entity;
 
 namespace TryAgain.Persistance.Repository
@@ -19,10 +20,15 @@ namespace TryAgain.Persistance.Repository
             return createdApp.Entity;
         }
 
-        internal Application GetApplicationById(int id)
+        internal Application GetApplicationById(int id, bool includeRelations)
         {
-            return _context.Applications.FirstOrDefault(x => x.Id == id);
-
+            return _context.Applications
+                .Where(x => x.Id == id)
+                .Include(x => x.Course)
+                .Include(x => x.Organizer)
+                .Include(x => x.TeacherConfirmations)
+                .ThenInclude(x => x.Teacher)
+                .FirstOrDefault();
         }
     }
 }

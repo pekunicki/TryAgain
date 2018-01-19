@@ -9,13 +9,16 @@ namespace TryAgain.Controllers.Application
     {
         private readonly IApplicationService _applicationService;
         private readonly IUserService _userService;
+        private readonly ITeacherConfirmationService _teacherConfirmationService;
 
         public ApplicationController(
             IApplicationService applicationService, 
-            IUserService userService)
+            IUserService userService, 
+            ITeacherConfirmationService teacherConfirmationService)
         {
             _applicationService = applicationService;
             _userService = userService;
+            _teacherConfirmationService = teacherConfirmationService;
         }
 
         public IActionResult Index()
@@ -52,7 +55,8 @@ namespace TryAgain.Controllers.Application
 
             var currentUser = _userService.GetUserById();
             var appModel = _applicationService.CreateApplicationModel(appViewModel, currentUser);
-            _applicationService.SaveApplication(appModel);
+            var appId = _applicationService.SaveApplication(appModel);
+            _teacherConfirmationService.CreateNewTeacherConfirmation(appModel, appId);
 
             return RedirectToAction("CreateSucccessResult");
         }

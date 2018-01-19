@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TryAgain.Persistance.Entity
 {
@@ -18,5 +19,8 @@ namespace TryAgain.Persistance.Entity
         public string Index { get; set; }
         [Column("rola")]
         public string Role { get; set; }
+
+        public ICollection<Application> Applications { get; set; }
+
     }
 }

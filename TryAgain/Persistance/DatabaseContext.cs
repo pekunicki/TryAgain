@@ -24,14 +24,29 @@ namespace TryAgain.Persistance
 //                .HasDefaultValueSql("NEXT VALUE FOR public.podanieokurspoprawkowy");
 
             modelBuilder.Entity<Application>()
-                .ToTable("podanieokurspoprawkowy");
+                .ToTable("podanieokurspoprawkowy")
+                .HasOne(app => app.Organizer)
+                .WithMany(u => u.Applications)
+                .HasForeignKey(app => app.OrganizerId);
+
+            modelBuilder.Entity<Application>()
+                .HasOne(app => app.Course)
+                .WithMany(c => c.Applications)
+                .HasForeignKey(app => app.CourseId);
 
             modelBuilder.Entity<Teacher>()
                 .ToTable("prowadzacy");
 
             modelBuilder.Entity<TeacherConfirmation>()
-                .ToTable("potwierdzenieprowadzacego");
+                .ToTable("potwierdzenieprowadzacego")
+                .HasOne<Teacher>(tc => tc.Teacher)
+                .WithMany(t => t.TeacherConfirmations)
+                .HasForeignKey(tc => tc.TeacherId);
 
+            modelBuilder.Entity<TeacherConfirmation>()
+                .HasOne<Application>(tc => tc.Application)
+                .WithMany(t => t.TeacherConfirmations)
+                .HasForeignKey(tc => tc.ApplicationId);
         }
 
         public DbSet<Application> Applications { get; set; }

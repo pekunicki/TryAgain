@@ -20,5 +20,8 @@ namespace TryAgain.Persistance.Entity
         public int ExpiryDaysNumber { get; set; }
         [Column("datastworzenia")]
         public DateTime CreationDate { get; set; }
+
+        public Teacher Teacher { get; set; }
+        public Application Application { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using TryAgain.Models.Constants;
 using TryAgain.Persistance.Entity;
 using TryAgain.Persistance.Repository;
 using TryAgain.Services.Interfaces;
+using TryAgain.Utils;
 
 namespace TryAgain.Services
 {
@@ -23,7 +24,7 @@ namespace TryAgain.Services
             _teacherConfirmationRepository = teacherConfirmationRepository;
         }
 
-        public TeacherConfirmationModel CreateNewTeacherConfirmation(int teacherId, int appId)
+        public TeacherConfirmationModel CreateNewTeacherConfirmation(ApplicationModel appModel, int appId)
         {
             var confirmation = new TeacherConfirmation()
             {
@@ -32,36 +33,52 @@ namespace TryAgain.Services
                 Link = GenerateUniqueId(),
                 State = ConfirmationState.Oczekiwanie,
                 ApplicationId =  appId,
-                TeacherId = teacherId
+                TeacherId = appModel.Teacher.Id
             };
-
             var teacherConfirmation = _teacherConfirmationRepository.Create(confirmation);
-            _notificationService.SendRequestToTeacher(appId, teacherId);
-            return MapToConfirmationModel(teacherConfirmation);
-        }
+            var fullLink = CreateLink(teacherConfirmation.Link);
+            _notificationService.SendRequestToTeacher(appModel.Organizer.FullName, appModel.Teacher.Email, fullLink);
 
-        private static string GenerateUniqueId()
-        {
-            return Guid.NewGuid().ToString();
+            return MapToConfirmationModel(teacherConfirmation);
         }
 
         public void AcceptTeacherConfirmation(int confirmationId)
         {
-            _teacherConfirmationRepository.UpdateTeacherConfirmation(
+            var confirmation = _teacherConfirmationRepository.UpdateTeacherConfirmation(
                 confirmationId,
                 ConfirmationState.Zaakceptowane);
+
+            if (confirmation != null)
+            {
+                SendNotificationToStudent(confirmationId, ConfirmationState.Zaakceptowane);
+            }
+
         }
 
         public void RejectTeacherConfirmation(int confirmationId)
         {
-            _teacherConfirmationRepository.UpdateTeacherConfirmation(
+            var confirmation = _teacherConfirmationRepository.UpdateTeacherConfirmation(
                 confirmationId,
                 ConfirmationState.Odrzucone);
+
+            if (confirmation != null)
+            {
+                SendNotificationToStudent(confirmationId, ConfirmationState.Odrzucone);
+            }
         }
 
+        //todo consider using some results returning always null's is quite bad...
         public TeacherConfirmationModel TryGetTeacherConfirmationByLink(string link)
         {
+            if (string.IsNullOrWhiteSpace(link))
+            {
+                return null;
+            }
             var confirmation = _teacherConfirmationRepository.GetTeacherConfirmationByLink(link);
+            if (confirmation == null)
+            {
+                return null;
+            }
             var isValid = confirmation.CreationDate.AddDays(confirmation.ExpiryDaysNumber) >= DateTime.UtcNow
                           && confirmation.State == ConfirmationState.Oczekiwanie;
 
@@ -72,16 +89,27 @@ namespace TryAgain.Services
             return null;
         }
 
+        private void SendNotificationToStudent(int confirmationId, ConfirmationState state)
+        {
+            var confirmation = _teacherConfirmationRepository.GetTeacherAndOrganizerByConfirmationId(confirmationId);
+            var teacherName = $"{confirmation.Teacher.FirstName} {confirmation.Teacher.LastName}";
+            var studentEmail = confirmation.Application.Organizer.Email;
+            _notificationService.SendTeacherConfirmatonToStudent(teacherName, studentEmail, state);
+        }
+
         private static TeacherConfirmationModel MapToConfirmationModel(TeacherConfirmation confirmation)
         {
             return Mapper.Map<TeacherConfirmationModel>(confirmation);
         }
 
-        public TeacherConfirmationModel TryGetTeacherConfirmationByAppId(int id)
+        private string CreateLink(string teacherConfirmationLink)
         {
-            var confirmations = _teacherConfirmationRepository.GetTeacherCOnfirmationsByAppId(id);
-            var firstConfirmation = confirmations.First();
-            return MapToConfirmationModel(firstConfirmation);
+            return Settings.BaseUrl + Settings.TeacherConfirmationEndpoint + teacherConfirmationLink;
+        }
+
+        private static string GenerateUniqueId()
+        {
+            return Guid.NewGuid().ToString();
         }
     }
 }

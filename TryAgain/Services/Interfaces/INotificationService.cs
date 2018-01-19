@@ -1,21 +1,10 @@
-﻿namespace TryAgain.Services.Interfaces
+﻿using TryAgain.Models.Constants;
+
+namespace TryAgain.Services.Interfaces
 {
     public interface INotificationService
     {
-        void SendRequestToTeacher(int applicationId, int teacherId);
-        void SendTeacherConfirmatonToStudent(int applicationId, int studentId);
-    }
-
-    internal class NotificationService : INotificationService {
-
-        public void SendRequestToTeacher(int applicationId, int teacherId)
-        {
-            //todo implement
-        }
-
-        public void SendTeacherConfirmatonToStudent(int applicationId, int studentId)
-        {
-            //todo implement
-        }
+        void SendRequestToTeacher(string senderName, string teacherEmail, string link);
+        void SendTeacherConfirmatonToStudent(string senderName, string receiverEmail, ConfirmationState state);
     }
 }

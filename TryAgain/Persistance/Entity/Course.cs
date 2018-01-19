@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using TryAgain.Models.Constants;
 
 namespace TryAgain.Persistance.Entity
@@ -13,5 +14,8 @@ namespace TryAgain.Persistance.Entity
         public int Ects { get; set; }
         [Column("rodzaj")]
         public CourseType Type { get; set; }
+
+        public ICollection<Application> Applications { get; set; }
+
     }
 }

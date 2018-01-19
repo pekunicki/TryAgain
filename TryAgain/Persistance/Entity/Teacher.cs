@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TryAgain.Persistance.Entity
 {
@@ -14,5 +15,7 @@ namespace TryAgain.Persistance.Entity
         public string FirstName { get; set; }
         [Column("nazwisko")]
         public string LastName { get; set; }
+
+        public ICollection<TeacherConfirmation> TeacherConfirmations { get; set; }
     }
 }

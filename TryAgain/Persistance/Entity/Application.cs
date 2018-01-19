@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using TryAgain.Models.Constants;
 using DayOfWeek = TryAgain.Models.Constants.DayOfWeek;
@@ -29,5 +30,9 @@ namespace TryAgain.Persistance.Entity
         public DayOfWeek Day { get; set; }
         [Column("rodzajpodania")]
         public string ApplicationType { get; set; }
+
+        public ICollection<TeacherConfirmation> TeacherConfirmations { get; set; }
+        public User Organizer { get; set; }
+        public Course Course { get; set; }
     }
 }

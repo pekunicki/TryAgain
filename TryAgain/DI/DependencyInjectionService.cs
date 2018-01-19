@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TryAgain.Models.Mappers;
 using TryAgain.Persistance.Repository;
 using TryAgain.Services;
 using TryAgain.Services.Interfaces;
@@ -23,6 +24,7 @@ namespace TryAgain.DI
             services.AddScoped<UserRepository>();
             services.AddScoped<TeacherRepository>();
 
+            services.AddScoped<ApplicationModelMapper>();
         }
     }
 }

@@ -43,7 +43,7 @@ namespace TryAgain.Models.Mappers
         {
             return new ApplicationViewModel
             {
-                OrganizerFullName = appModel.Organizer.FirstName + appModel.Organizer.LastName,
+                OrganizerFullName = $"{appModel.Organizer.FirstName} {appModel.Organizer.LastName}",
                 Classroom = appModel.Classroom,
                 Course = new CourseInApplicationViewModel
                 {
@@ -57,7 +57,7 @@ namespace TryAgain.Models.Mappers
                     StartTime = appModel.StartTime.GetHoursAndMinutes(),
                     EndTime = appModel.EndTime.GetHoursAndMinutes()
                 },
-                ProposedTeacherFullName = appModel.Teacher.FirstName + appModel.Teacher.LastName,
+                ProposedTeacherFullName = $"{appModel.Teacher.FirstName} {appModel.Teacher.LastName}",
                 Type = appModel.Course.Type
             };
         }

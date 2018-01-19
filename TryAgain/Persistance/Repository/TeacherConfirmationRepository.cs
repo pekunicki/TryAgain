@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using TryAgain.Models.Constants;
 using TryAgain.Persistance.Entity;
 
@@ -33,14 +34,25 @@ namespace TryAgain.Persistance.Repository
             {
                 return null;
             }
+
             confirmation.State = newState;
             _context.SaveChanges();
             return confirmation;
         }
 
-        public List<TeacherConfirmation> GetTeacherCOnfirmationsByAppId(int id)
+        public List<TeacherConfirmation> GetTeacherConfirmationsByAppId(int id)
         {
             return _context.TeacherConfirmations.Where(x => x.ApplicationId == id).ToList();
+        }
+
+        public TeacherConfirmation GetTeacherAndOrganizerByConfirmationId(int id)
+        {
+            return _context.TeacherConfirmations
+                .Where(x => x.Id == id)
+                .Include(x => x.Teacher)
+                .Include(x => x.Application)
+                .ThenInclude(app => app.Organizer)
+                .FirstOrDefault();
         }
     }
 }

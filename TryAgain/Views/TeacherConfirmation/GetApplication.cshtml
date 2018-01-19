@@ -4,8 +4,6 @@
     ViewBag.Title = "Potwierdzenie prowadzenia kursu poprawkowego";
     Layout = "_Layout";
 }
-ViewBag.TeacherConfirmationId
-
     <div class="row">
         <div class="col-md-8">
             <div class="form-group">
@@ -45,7 +43,7 @@ ViewBag.TeacherConfirmationId
             <div class="form-group">
                 <label  class="col-md-3 right">Proponowany prowadzący:</label>
                 <div class="col-md-5">
-                    <input valuer="@Model.ProposedTeacherFullName" class="form-control" disabled />
+                    <input value="@Model.ProposedTeacherFullName" class="form-control" disabled />
                 </div>
             </div>
         </div>
@@ -89,10 +87,10 @@ ViewBag.TeacherConfirmationId
 
     <div class="row">
         <div class="col-md-12">
-            <a asp-controller="TeacherConfirmation" asp-action="Reject" asp-route-prev="" type="button" class="btn btn-danger">
+            <a asp-controller="TeacherConfirmation" asp-action="Reject" asp-route-link="@ViewBag.Link" type="button" class="btn btn-danger">
                 ODRZUĆ
             </a>
-            <a asp-controller="TeacherConfirmation" asp-action="Accept" type="button" class="btn btn-success">
+            <a asp-controller="TeacherConfirmation" asp-action="Accept" asp-route-link="@ViewBag.Link" type="button" class="btn btn-success">
                 AKCEPTUJ
             </a>
         </div>

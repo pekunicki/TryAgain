@@ -27,13 +27,10 @@ namespace TryAgain.Controllers.Application
 
             var appModel = _applicationService.GetById(confirmationModel.ApplicationId);
             var appViewModel = _applicationService.CreateApplicationViewModel(appModel);
-            //todo consider to delete it, we shouldn't expose this id
-            ViewBag.TeacherConfirmationId = confirmationModel.Id;
+            ViewBag.Link = link;
             return View(appViewModel);
         }
 
-        //todo change to post maybe
-        //todo check in requirements what should happen after accepted/rejected application by teacher.
         [HttpGet]
         public IActionResult Accept(string link)
         {
@@ -43,12 +40,10 @@ namespace TryAgain.Controllers.Application
                 return RedirectToAction("InvalidLink");
             }
 
-            //todo implement sending post
             _teacherConfirmationService.AcceptTeacherConfirmation(confirmationModel.Id);
             return View();
         }
 
-        //todo change to post maybe
         [HttpGet]
         public IActionResult Reject(string link)
         {
@@ -58,7 +53,6 @@ namespace TryAgain.Controllers.Application
                 return RedirectToAction("InvalidLink");
             }
 
-            //todo implement sending post
             _teacherConfirmationService.RejectTeacherConfirmation(confirmationModel.Id);
             return View();
         }

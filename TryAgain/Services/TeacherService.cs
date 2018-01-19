@@ -30,6 +30,10 @@ namespace TryAgain.Services
 
         public TeacherModel TryGetTeacherByTeacherFullName(string fullName)
         {
+            if (string.IsNullOrWhiteSpace(fullName))
+            {
+                return null;
+            }
             var names = CreateNamesFromFullName(fullName);
             if (names == null)
             {

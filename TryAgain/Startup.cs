@@ -31,7 +31,9 @@ namespace TryAgain
 
             var connectionString = Configuration.GetConnectionString("TryAgain");
             services.AddEntityFrameworkNpgsql().AddDbContext<DatabaseContext>(options => options.UseNpgsql(connectionString));
+
             services.AddAutoMapper();
+
             _dependencyInjectionService.BindDependencyInjection(services);
         }
 
