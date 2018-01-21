@@ -1,19 +1,23 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TryAgain.Models.Mappers;
 using TryAgain.Services.Interfaces;
 
 namespace TryAgain.Controllers.Application
 {
     public class TeacherConfirmationController : Controller
     {
+        private readonly ApplicationModelMapper _applicationModelMapper;
         private readonly IApplicationService _applicationService;
         private readonly ITeacherConfirmationService _teacherConfirmationService;
 
         public TeacherConfirmationController(
             IApplicationService applicationService, 
-            ITeacherConfirmationService teacherConfirmationService)
+            ITeacherConfirmationService teacherConfirmationService, 
+            ApplicationModelMapper applicationModelMapper)
         {
             _applicationService = applicationService;
             _teacherConfirmationService = teacherConfirmationService;
+            _applicationModelMapper = applicationModelMapper;
         }
 
         [HttpGet]
@@ -26,7 +30,7 @@ namespace TryAgain.Controllers.Application
             }
 
             var appModel = _applicationService.GetById(confirmationModel.ApplicationId);
-            var appViewModel = _applicationService.CreateApplicationViewModel(appModel);
+            var appViewModel = _applicationModelMapper.MapToViewModel(appModel);
             ViewBag.Link = link;
             return View(appViewModel);
         }

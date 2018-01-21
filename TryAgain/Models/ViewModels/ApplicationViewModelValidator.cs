@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using TryAgain.Services.Interfaces;
 using TryAgain.Utils.CustomValidators;
-using TryAgain.Utils.ValidatiorMessages;
+using TryAgain.Utils.ValidatorMessages;
 
 namespace TryAgain.Models.ViewModels
 {
@@ -10,6 +10,7 @@ namespace TryAgain.Models.ViewModels
         private readonly ICourseService _courseService;
         private readonly ITeacherService _teacherService;
 
+        //todo consider dependencies on other rules
         public ApplicationViewModelValidator(
             ICourseService courseService, 
             ITeacherService teacherService)
@@ -34,7 +35,8 @@ namespace TryAgain.Models.ViewModels
                 .WithMessage(EmptyValueMessage())
                 .MaximumLength(500)
                 .WithMessage(InvalidValueMessage())
-                .Must(CheckIfTeacherIsValid);
+                .Must(CheckIfTeacherIsValid)
+                .WithMessage(NotExistsInDatabase());
 
             RuleFor(reg => reg.Classroom)
                 .NotEmpty()
@@ -49,13 +51,12 @@ namespace TryAgain.Models.ViewModels
                 .WithName("Rodzaj Kursu")
                 .WithMessage(EmptyValueMessage());
 
-            //todo first provide ects
-//            RuleFor(reg => reg.Course.Ects)
-//                .NotEmpty()
-//                .WithName("ECTS")
-//                .WithMessage(EmptyValueMessage())
-//                .Must(ects => ects >= 0 && ects <= 1000)
-//                .WithMessage(InvalidValueMessage());
+            RuleFor(reg => reg.Course.Ects)
+                .NotEmpty()
+                .WithName("ECTS")
+                .WithMessage(EmptyValueMessage())
+                .Must(ects => ects >= 0 && ects <= 1000)
+                .WithMessage(InvalidValueMessage());
 
             RuleFor(reg => reg.Course.CourseName)
                 .NotEmpty()
@@ -63,7 +64,9 @@ namespace TryAgain.Models.ViewModels
                 .WithMessage(EmptyValueMessage())
                 .MaximumLength(500)
                 .WithMessage(InvalidValueMessage())
-                .Must(CheckIfCourseIsValid);
+                .Must(CheckIfCourseIsValid)
+                .WithMessage(NotExistsInDatabase());
+            
 
             RuleFor(reg => reg.Date.Day)
                 .IsInEnum()
@@ -109,5 +112,9 @@ namespace TryAgain.Models.ViewModels
             return ValidatorMessages.InvalidTimeValueMessage(fieldName);
         }
 
+        private string NotExistsInDatabase(string fieldName = null)
+        {
+            return ValidatorMessages.NotExistsInDatabase(fieldName);
+        }
     }
 }

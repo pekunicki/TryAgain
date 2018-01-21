@@ -19,7 +19,7 @@ namespace TryAgain.DI
             services.AddScoped<IUserService, UserService>();
 
             services.AddScoped<ApplicationRepository>();
-            services.AddScoped<TeacherConfirmationRepository>();
+            services.AddScoped<ITeacherConfirmationRepository, TeacherConfirmationRepository>();
             services.AddScoped<CourseRepository>();
             services.AddScoped<UserRepository>();
             services.AddScoped<TeacherRepository>();

@@ -1,5 +1,5 @@
 ﻿
-namespace TryAgain.Utils.ValidatiorMessages
+namespace TryAgain.Utils.ValidatorMessages
 {
     internal class ValidatorMessages
     {
@@ -13,6 +13,12 @@ namespace TryAgain.Utils.ValidatiorMessages
         {
             var propertyName = GetPropertyName(fieldName);
             return $"Pole {propertyName} zawiera nieprawidłową wartość.";
+        }
+
+        public static string NotExistsInDatabase(string fieldName)
+        {
+            var propertyName = GetPropertyName(fieldName);
+            return $"Podana wartość w polu {propertyName} nie istnieje w bazie danych.";
         }
 
         public static string InvalidTimeValueMessage(string fieldName)

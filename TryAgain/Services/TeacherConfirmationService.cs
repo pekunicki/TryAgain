@@ -13,12 +13,12 @@ namespace TryAgain.Services
     internal class TeacherConfirmationService : ITeacherConfirmationService
     {
         private readonly INotificationService _notificationService;
-        private readonly TeacherConfirmationRepository _teacherConfirmationRepository;
+        private readonly ITeacherConfirmationRepository _teacherConfirmationRepository;
         private int _expiryDaysNumber = 10;
 
         public TeacherConfirmationService(
             INotificationService notificationService, 
-            TeacherConfirmationRepository teacherConfirmationRepository)
+            ITeacherConfirmationRepository teacherConfirmationRepository)
         {
             _notificationService = notificationService;
             _teacherConfirmationRepository = teacherConfirmationRepository;
@@ -67,7 +67,6 @@ namespace TryAgain.Services
             }
         }
 
-        //todo consider using some results returning always null's is quite bad...
         public TeacherConfirmationModel TryGetTeacherConfirmationByLink(string link)
         {
             if (string.IsNullOrWhiteSpace(link))
@@ -94,7 +93,7 @@ namespace TryAgain.Services
             var confirmation = _teacherConfirmationRepository.GetTeacherAndOrganizerByConfirmationId(confirmationId);
             var teacherName = $"{confirmation.Teacher.FirstName} {confirmation.Teacher.LastName}";
             var studentEmail = confirmation.Application.Organizer.Email;
-            _notificationService.SendTeacherConfirmatonToStudent(teacherName, studentEmail, state);
+            _notificationService.SendTeacherConfirmationToStudent(teacherName, studentEmail, state);
         }
 
         private static TeacherConfirmationModel MapToConfirmationModel(TeacherConfirmation confirmation)

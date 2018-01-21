@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TryAgain.Models.Creators;
+using TryAgain.Models.Mappers;
 using TryAgain.Models.ViewModels;
 using TryAgain.Services.Interfaces;
 
@@ -7,23 +8,27 @@ namespace TryAgain.Controllers.Application
 {
     public class ApplicationController : Controller
     {
+        private readonly ApplicationModelMapper _applicationModelMapper;
         private readonly IApplicationService _applicationService;
         private readonly IUserService _userService;
         private readonly ITeacherConfirmationService _teacherConfirmationService;
+        private readonly ICourseService _courseService;
+        private readonly ITeacherService _teacherService;
 
         public ApplicationController(
             IApplicationService applicationService, 
             IUserService userService, 
-            ITeacherConfirmationService teacherConfirmationService)
+            ITeacherConfirmationService teacherConfirmationService,
+            ICourseService courseService, 
+            ITeacherService teacherService, 
+            ApplicationModelMapper applicationModelMapper)
         {
             _applicationService = applicationService;
             _userService = userService;
             _teacherConfirmationService = teacherConfirmationService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
+            _courseService = courseService;
+            _teacherService = teacherService;
+            _applicationModelMapper = applicationModelMapper;
         }
 
         [HttpGet]
@@ -33,12 +38,24 @@ namespace TryAgain.Controllers.Application
         }
 
         [HttpGet]
+        public ActionResult GetMatchedCourses(string term)
+        {
+            var courses = _courseService.GetAllMatchedCourses(term, 5);
+            return Json(courses);
+        }
+
+        [HttpGet]
+        public ActionResult GetMatchedTeachers(string term)
+        {
+            var teachers = _teacherService.GetAllMatchedTeachers(term, 5);
+            return Json(teachers);
+        }
+
+        [HttpGet]
         public IActionResult Create()
         {
             var currentUser = _userService.GetUserById();
             var fullName = $"{currentUser.FirstName} {currentUser.LastName}";
-
-            //todo if we want have combobox and autofilling of ECTS field we need to pass here all courses or add ajax call
             var appViewModel = CreatorApplicationViewModel.CreateEmpty(fullName);
 
             return View(appViewModel);
@@ -54,24 +71,14 @@ namespace TryAgain.Controllers.Application
             }
 
             var currentUser = _userService.GetUserById();
-            var appModel = _applicationService.CreateApplicationModel(appViewModel, currentUser);
+            var appModel = _applicationModelMapper.MapToModel(appViewModel, currentUser);
             var appId = _applicationService.SaveApplication(appModel);
             _teacherConfirmationService.CreateNewTeacherConfirmation(appModel, appId);
 
-            return RedirectToAction("CreateSucccessResult");
+            return RedirectToAction("CreateSuccessResult");
         }
 
-        public IActionResult CreateSucccessResult()
-        {
-            return View();
-        }
-
-        public IActionResult GetUserAll()
-        {
-            return View();
-        }
-
-        public IActionResult GetAll()
+        public IActionResult CreateSuccessResult()
         {
             return View();
         }

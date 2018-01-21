@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Runtime.CompilerServices;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,8 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using TryAgain.Persistance;
 
+[assembly: InternalsVisibleTo("TryAgain.Test")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace TryAgain
 {
     public class Startup

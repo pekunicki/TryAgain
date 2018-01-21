@@ -15,5 +15,6 @@ namespace TryAgain.Models.ViewModels
         public string Classroom { get; set; }
 
         public DateInApplicationViewModel Date { get; set; }
+
     }
 }

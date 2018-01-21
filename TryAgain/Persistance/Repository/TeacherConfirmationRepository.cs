@@ -6,7 +6,7 @@ using TryAgain.Persistance.Entity;
 
 namespace TryAgain.Persistance.Repository
 {
-    internal class TeacherConfirmationRepository
+    internal class TeacherConfirmationRepository : ITeacherConfirmationRepository
     {
         private readonly DatabaseContext _context;
 
@@ -54,5 +54,14 @@ namespace TryAgain.Persistance.Repository
                 .ThenInclude(app => app.Organizer)
                 .FirstOrDefault();
         }
+    }
+
+    public interface ITeacherConfirmationRepository
+    {
+        TeacherConfirmation GetTeacherAndOrganizerByConfirmationId(int id);
+        List<TeacherConfirmation> GetTeacherConfirmationsByAppId(int id);
+        TeacherConfirmation UpdateTeacherConfirmation(int id, ConfirmationState newState);
+        TeacherConfirmation GetTeacherConfirmationByLink(string link);
+        TeacherConfirmation Create(TeacherConfirmation confirmation);
     }
 }

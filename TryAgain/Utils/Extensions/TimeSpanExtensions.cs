@@ -19,7 +19,7 @@ namespace TryAgain.Utils.Extensions
                 if (value.Hours >= 0
                     && value.Minutes >= 0
                     && value.Days == 0
-                    && value.Seconds == 0
+                    && value.Seconds >= 0
                     && value.Milliseconds == 0)
                 {
                     return value;

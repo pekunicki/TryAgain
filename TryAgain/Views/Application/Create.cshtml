@@ -1,5 +1,4 @@
 ﻿@using TryAgain.Models.Constants
-@using TryAgain.Utils.Extensions
 @model TryAgain.Models.ViewModels.ApplicationViewModel
 
 @{
@@ -22,7 +21,7 @@
             <div class="form-group">
                 <label asp-for="@Model.OrganizerFullName" class="col-md-3 right">Student Organizujący Kurs:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.OrganizerFullName" Value="@Model.OrganizerFullName" readonly/>
+                    <input asp-for="@Model.OrganizerFullName" Value="@Model.OrganizerFullName" readonly />
                 </div>
             </div>
         </div>
@@ -32,11 +31,11 @@
             <div class="form-group">
                 <label asp-for="@Model.Course.CourseName" class="col-md-3 right">Kurs:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.Course.CourseName" class="form-control" />
+                    <input asp-for="@Model.Course.CourseName" class="form-control" autocomplete="off" />
                 </div>
-                <label asp-for="@Model.Course.Ects" class="col-md-1 right">ECTS:</label>
-                <div class="col-md-1">
-                    <input asp-for="@Model.Course.Ects" class="form-control" disabled/>
+                <label asp-for="@Model.Course.Ects" class="col-md-2 right">ECTS:</label>
+                <div class="col-md-2">
+                    <input asp-for="@Model.Course.Ects" class="form-control" width="100" readonly />
                 </div>
             </div>
         </div>
@@ -67,7 +66,7 @@
             <div class="form-group">
                 <label asp-for="@Model.Classroom" class="col-md-3 right">Sala:</label>
                 <div class="col-md-5">
-                    <input asp-for="@Model.Classroom" class="form-control" />     
+                    <input asp-for="@Model.Classroom" class="form-control" />
                 </div>
             </div>
         </div>
@@ -91,13 +90,11 @@
             <div class="form-group">
                 <label asp-for="@Model.Date.StartTime" class="col-md-2 right">Godzina rozpoczęcia:</label>
                 <div class="col-md-2">
-                    <input asp-for="@Model.Date.StartTime" class="form-control"/>
-@*                                        <select asp-for="@Model.Data.GodzinaRozpoczecia" asp-items="@Model.Data.AvailableHours" ></select>*@
+                    <input asp-for="@Model.Date.StartTime" class="form-control" />
                 </div>
                 <label asp-for="@Model.Date.EndTime" class="col-md-2 right">Godzina zakończenia:</label>
                 <div class="col-md-2">
                     <input asp-for="@Model.Date.EndTime" class="form-control" />
-                    @*                    <select asp-for="@Model.Data.Dzien" asp-items="@Model.Data.Dzien" ></select>*@
                 </div>
             </div>
         </div>
@@ -105,9 +102,66 @@
 
     <div class="row">
         <div class="col-md-12">
-            <button type="submit" class="btn btn-default">STWÓRZ PODANIE</button>
+            <button type="submit" class="btn btn-default" id="CreateApplication">STWÓRZ PODANIE</button>
             <button type="submit" class="btn btn-default" disabled>WYŚLIJ</button>
 
         </div>
     </div>
 </form>
+
+@section Scripts {
+    <script src="~/lib/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/js/autocompleteExtension.js"></script>
+    <script type="text/javascript">
+
+        function teacherSuccess(data, response) {
+            response($.map(data,
+                function (item) {
+                    return {
+                        value: item.fullName
+                    }
+                }));
+        }
+
+        function teacherSelect(event, ui) {
+            $('#ProposedTeacherFullName').val(ui.item.value);
+            return false;
+        }
+
+        initAutoCompleteField(
+            "#ProposedTeacherFullName",
+            "/Application/GetMatchedTeachers",
+            teacherSuccess,
+            teacherSelect);
+
+        function courseSuccess(data, response) {
+            var result = $.grep(data,
+                function (e) { return e.courseName === $("#Course_CourseName").val(); });
+            if (result.length === 1) {
+                $('#Course_Ects').val(result[0].ects);
+            } else {
+                $('#Course_Ects').val(0);
+            }
+            response($.map(data,
+                function (item) {
+                    return {
+                        value: item.courseName,
+                        ects: item.ects
+                    }
+                }))
+        }
+
+        function courseSelect(event, ui) {
+            $('#Course_CourseName').val(ui.item.value);
+            $('#Course_Ects').val(ui.item.ects);
+            return false;
+        }
+
+        initAutoCompleteField(
+            "#Course_CourseName",
+            "/Application/GetMatchedCourses/",
+            courseSuccess,
+            courseSelect);
+
+    </script>
+}

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using TryAgain.Persistance.Entity;
 
 namespace TryAgain.Persistance.Repository
@@ -12,9 +14,13 @@ namespace TryAgain.Persistance.Repository
             _context = context;
         }
 
+        internal List<Course> GetAllCourses()
+        {
+            return _context.Courses.ToList();
+        }
+
         internal Course GetCourseByName(string name)
         {
-            //todo consider return lists
             var course = _context.Courses.FirstOrDefault(x => x.CourseName == name);
             return course;
         }
@@ -22,6 +28,14 @@ namespace TryAgain.Persistance.Repository
         internal Course GetCourseById(int id)
         {
             return _context.Courses.FirstOrDefault(x => x.Id == id);
+        }
+
+        internal List<Course> GetAllMatchedCourses(string term, int numberResults)
+        {
+            return _context.Courses
+                .Where(c => c.CourseName.IndexOf(term, StringComparison.OrdinalIgnoreCase) >= 0)
+                .Take(numberResults)
+                .ToList();
         }
     }
 }

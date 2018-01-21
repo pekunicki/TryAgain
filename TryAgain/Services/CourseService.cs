@@ -18,8 +18,14 @@ namespace TryAgain.Services
 
         public List<CourseModel> GetAllCourses()
         {
-            //todo implement
-            throw new System.NotImplementedException();
+            var courses = _courseRepository.GetAllCourses();
+            return Mapper.Map<List<CourseModel>>(courses);
+        }
+
+        public List<CourseModel> GetAllMatchedCourses(string term, int numberResults)
+        {
+            var courses = _courseRepository.GetAllMatchedCourses(term, numberResults);
+            return Mapper.Map<List<CourseModel>>(courses);
         }
 
         public bool CheckIfCourseExists(string courseName)

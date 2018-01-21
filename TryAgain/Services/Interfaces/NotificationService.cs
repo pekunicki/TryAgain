@@ -25,7 +25,7 @@ namespace TryAgain.Services.Interfaces
             _postmarkClient.SendMessage(message);
         }
 
-        public void SendTeacherConfirmatonToStudent(string senderName, string receiverEmail, ConfirmationState state)
+        public void SendTeacherConfirmationToStudent(string senderName, string receiverEmail, ConfirmationState state)
         {
             var htmlMessage = CreateMessageForStudent(senderName, state);
             var message = CreatePostMarkMessage(receiverEmail, htmlMessage);

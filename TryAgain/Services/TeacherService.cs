@@ -18,8 +18,14 @@ namespace TryAgain.Services
 
         public List<TeacherModel> GetAllTeachers()
         {
-            //todo mapping
-            return new List<TeacherModel>();
+            var teachers= _teacherRepository.GetAllTeachers();
+            return Mapper.Map<List<TeacherModel>>(teachers);
+        }
+
+        public List<TeacherModel> GetAllMatchedTeachers(string term, int numberResults)
+        {
+            var teachers = _teacherRepository.GetAllMatchedTeachers(term, numberResults);
+            return Mapper.Map<List<TeacherModel>>(teachers);
         }
 
         public bool CheckIfTeacherExists(string fullName)
