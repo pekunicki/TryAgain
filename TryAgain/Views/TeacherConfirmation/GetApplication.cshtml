@@ -4,94 +4,96 @@
     ViewBag.Title = "Potwierdzenie prowadzenia kursu poprawkowego";
     Layout = "_Layout";
 }
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label class="col-md-3 right">Student Organizujący Kurs:</label>
-                <div class="col-md-5">
-                    <input value="@Model.OrganizerFullName" disabled/>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label class="col-md-3 right">Kurs:</label>
-                <div class="col-md-5">
-                    <input value="@Model.Course.CourseName" class="form-control" disabled/>
-                </div>
-                <label class="col-md-1 right">ECTS:</label>
-                <div class="col-md-1">
-                    <input value="@Model.Course.Ects" class="form-control" disabled/>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label asp-for="@Model.Type" class="col-md-3 right">Rodzaj kursu:</label>
-                <div class="col-md-5">
-                    <input value="@Model.Type" class="form-control" disabled />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label  class="col-md-3 right">Proponowany prowadzący:</label>
-                <div class="col-md-5">
-                    <input value="@Model.ProposedTeacherFullName" class="form-control" disabled />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label class="col-md-3 right">Sala:</label>
-                <div class="col-md-5">
-                    <input value="@Model.Classroom" class="form-control" disabled />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label class="col-md-2 right">Dzień:</label>
-                <div class="col-md-2">
-                    <input value="@Model.Date.Day" class="form-control" disabled />
-                </div>
-                <label class="col-md-2 right">Tydzien:</label>
-                <div class="col-md-2">
-                    <input value="@Model.Date.Week" class="form-control" disabled/>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="form-group">
-                <label class="col-md-2 right">Godzina rozpoczęcia:</label>
-                <div class="col-md-2">
-                    <input asp-for="@Model.Date.StartTime" class="form-control" disabled/>
-                </div>
-                <label class="col-md-2 right">Godzina zakończenia:</label>
-                <div class="col-md-2">
-                    <input asp-for="@Model.Date.EndTime" class="form-control" disabled/>
-                </div>
-            </div>
-        </div>
-    </div>
+<h2>Propozycja prowadzenia kursu poprawkowego</h2>
 
-    <div class="row">
-        <div class="col-md-12">
-            <a asp-controller="TeacherConfirmation" asp-action="Reject" asp-route-link="@ViewBag.Link" type="button" class="btn btn-danger">
-                ODRZUĆ
-            </a>
-            <a asp-controller="TeacherConfirmation" asp-action="Accept" asp-route-link="@ViewBag.Link" type="button" class="btn btn-success">
-                AKCEPTUJ
-            </a>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="col-md-3 right">Student Organizujący Kurs:</label>
+            <div class="col-md-5">
+                <input value="@Model.OrganizerFullName" class="form-control" disabled />
+            </div>
         </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="col-md-3 right">Kurs:</label>
+            <div class="col-md-5">
+                <input value="@Model.Course.CourseName" class="form-control" disabled />
+            </div>
+            <label class="col-md-1 right">ECTS:</label>
+            <div class="col-md-2">
+                <input value="@Model.Course.Ects" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label asp-for="@Model.Type" class="col-md-3 right">Rodzaj kursu:</label>
+            <div class="col-md-5">
+                <input value="@Model.Type" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="col-md-3 right">Proponowany prowadzący:</label>
+            <div class="col-md-5">
+                <input value="@Model.ProposedTeacherFullName" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="col-md-3 right">Sala:</label>
+            <div class="col-md-5">
+                <input value="@Model.Classroom" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="col-md-2 right">Dzień:</label>
+            <div class="col-md-2">
+                <input value="@Model.Date.Day" class="form-control" disabled />
+            </div>
+            <label class="col-md-2 right">Tydzien:</label>
+            <div class="col-md-2">
+                <input value="@Model.Date.Week" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="form-group">
+            <label class="col-md-2 right">Godzina rozpoczęcia:</label>
+            <div class="col-md-2">
+                <input asp-for="@Model.Date.StartTime" class="form-control" disabled />
+            </div>
+            <label class="col-md-2 right">Godzina zakończenia:</label>
+            <div class="col-md-2">
+                <input asp-for="@Model.Date.EndTime" class="form-control" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <a asp-controller="TeacherConfirmation" asp-action="Reject" asp-route-link="@ViewBag.Link" type="button" class="btn btn-danger">
+            ODRZUĆ
+        </a>
+        <a asp-controller="TeacherConfirmation" asp-action="Accept" asp-route-link="@ViewBag.Link" type="button" class="btn btn-success">
+            AKCEPTUJ
+        </a>
+    </div>
+</div>

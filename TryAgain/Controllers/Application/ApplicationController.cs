@@ -82,5 +82,15 @@ namespace TryAgain.Controllers.Application
         {
             return View();
         }
+
+        public IActionResult GetUserAll()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult GetAll()
+        {
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
