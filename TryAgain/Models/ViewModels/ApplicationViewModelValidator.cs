@@ -11,7 +11,6 @@ namespace TryAgain.Models.ViewModels
         private readonly ICourseService _courseService;
         private readonly ITeacherService _teacherService;
 
-        //todo consider dependencies on other rules
         public ApplicationViewModelValidator(
             ICourseService courseService, 
             ITeacherService teacherService)
