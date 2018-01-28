@@ -44,8 +44,8 @@ namespace TryAgain.Test
             var submitButton = wait.Until(ExpectedConditions.ElementIsVisible(By.Id(_submitButtonId)));
 
             Actions actions = new Actions(_driver);
-            actions.SendKeys(courseName, "nowy");
-            actions.SendKeys(teacher, "bill gates");
+            actions.SendKeys(courseName, "Lord of the Rings: The Two Towers (2002)");
+            actions.SendKeys(teacher, "Johny Depp");
             actions.SendKeys(classRoom, "A1 202");
             actions.SendKeys(startTime, "11:15");
             actions.SendKeys(endTime, "13:15");
@@ -59,23 +59,5 @@ namespace TryAgain.Test
         {
             return new Uri(_baseUri, endpoint);
         }
-
-//        public void Dispose()
-//        {
-//            Dispose(true);
-//            GC.SuppressFinalize(this);
-//        }
-//
-//        protected virtual void Dispose(bool disposing)
-//        {
-//            if (disposing)
-//            {
-//                if (_driver != null)
-//                {
-//                    _driver.Dispose();
-//                    _driver = null;
-//                }
-//            }
-//        }
     }
 }

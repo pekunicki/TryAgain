@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using System.Text.RegularExpressions;
+using FluentValidation;
 using TryAgain.Services.Interfaces;
 using TryAgain.Utils.CustomValidators;
 using TryAgain.Utils.ValidatorMessages;
@@ -115,6 +116,11 @@ namespace TryAgain.Models.ViewModels
         private string NotExistsInDatabase(string fieldName = null)
         {
             return ValidatorMessages.NotExistsInDatabase(fieldName);
+        }
+
+        private string GreaterThan(string oppositeField, string fieldName = null)
+        {
+            return ValidatorMessages.ShouldBeGreaterThan(oppositeField, fieldName);
         }
     }
 }

@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using TryAgain.Controllers.Application;
 using TryAgain.Models.Constants;
+using TryAgain.Models.Mappers;
 using TryAgain.Persistance.Entity;
 using TryAgain.Persistance.Repository;
 using TryAgain.Services;
@@ -18,7 +19,6 @@ namespace TryAgain.Test
         private ITeacherConfirmationService _teacherConfirmationService;
         private Mock<INotificationService> _notificationService;
         private Mock<IApplicationService> _applicationService;
-
         private Mock<ITeacherConfirmationRepository> _teacherConfirmationRepositoryMock;
         private TeacherConfirmationController _teacherConfirmationController;
 
@@ -29,9 +29,10 @@ namespace TryAgain.Test
 
             _notificationService = new Mock<INotificationService>();
             _applicationService = new Mock<IApplicationService>();
+            var fakeApplicationModelMapper = new ApplicationModelMapper(null, null);
             _teacherConfirmationRepositoryMock = new Mock<ITeacherConfirmationRepository>();
             _teacherConfirmationService = new TeacherConfirmationService(_notificationService.Object, _teacherConfirmationRepositoryMock.Object);
-            _teacherConfirmationController = new TeacherConfirmationController(_applicationService.Object, _teacherConfirmationService);
+            _teacherConfirmationController = new TeacherConfirmationController(_applicationService.Object, _teacherConfirmationService, fakeApplicationModelMapper);
         }
 
         [Test]

@@ -27,6 +27,12 @@ namespace TryAgain.Utils.ValidatorMessages
             return $"Pole {propertyName} zawiera nieprawidłowy format. Dozwolony formaty to HH:MM lub HH:MM:SS.";
         }
 
+        public static string ShouldBeGreaterThan(string oppositeField, string fieldName)
+        {
+            var propertyName = GetPropertyName(fieldName);
+            return $"Pole {propertyName} powinno zawierać większą wartość niż {oppositeField}";
+        }
+
         private static string GetPropertyName(string fieldName)
         {
             return string.IsNullOrWhiteSpace(fieldName) ? "{PropertyName}" : fieldName;
